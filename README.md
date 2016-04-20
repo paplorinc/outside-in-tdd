@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/paplorinc/outside-in-tdd.svg?branch=master)](https://travis-ci.org/paplorinc/outside-in-tdd?branch=master)
+
 Outside-in TDD exercise in Spock
 --------------------------------
 
