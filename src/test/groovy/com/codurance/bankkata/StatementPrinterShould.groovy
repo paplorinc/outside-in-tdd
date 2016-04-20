@@ -1,5 +1,6 @@
 package com.codurance.bankkata
 
+import javaslang.collection.Vector
 import spock.lang.Specification
 
 import static com.codurance.bankkata.StatementPrinter.STATEMENT_HEADER
@@ -7,20 +8,21 @@ import static com.codurance.bankkata.StatementPrinter.STATEMENT_HEADER
 class StatementPrinterShould extends Specification {
     Console console = Mock()
 
-    def NO_TRANSACTIONS = []
-
     /*@formatter:off*/
     def 'always print the header'() {
-        given:  def statementPrinter = new StatementPrinter(console)
-        when:   statementPrinter.print(NO_TRANSACTIONS)
+        given:  final statementPrinter = new StatementPrinter(console)
+                final noTransactions = Vector.empty()
+
+        when:   statementPrinter.print(noTransactions)
+
         then:   1 * console.println(STATEMENT_HEADER)
     }
 
     def 'print transactions in revers chronological order'() {
-        given:  def statementPrinter = new StatementPrinter(console)
-                def transactions = [deposit('01/04/2014', 1000),
-                                    withdrawal('02/04/2014', 100),
-                                    deposit('10/04/2014', 500)]
+        given:  final statementPrinter = new StatementPrinter(console)
+                final transactions = Vector.of(deposit('01/04/2014', 1000),
+                                               withdrawal('02/04/2014', 100),
+                                               deposit('10/04/2014', 500))
 
         when:   statementPrinter.print(transactions)
 

@@ -6,18 +6,19 @@ import spock.lang.*
     Console console = Mock()
     Clock clock = Mock()
 
-    def account = new Account(new TransactionRepository(clock),
-                              new StatementPrinter(console))
+    final account = new Account(new TransactionRepository(clock),
+                                new StatementPrinter(console))
 
     /*@formatter:off*/
     def 'print statement containing all transactions'() {
-        given:  clock.todayAsString() >>> ['01/04/2014','02/04/2014','10/04/2014']
-
-                account.deposit(1000)
+        given:  clock.todayAsString() >>> ['01/04/2014',
+                                           '02/04/2014',
+                                           '10/04/2014']
+        when:   account.deposit(1000)
                 account.withdraw(100)
                 account.deposit(500)
 
-        when:   account.printStatement()
+        and:    account.printStatement()
 
         then:   1 * console.println('DATE | AMOUNT | BALANCE')
         then:   1 * console.println('10/04/2014 | 500.00 | 1400.00')

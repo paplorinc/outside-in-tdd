@@ -1,38 +1,36 @@
 package com.codurance.bankkata;
 
+import javaslang.collection.Seq;
+
 import java.text.DecimalFormat;
-import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toCollection;
 
 public class StatementPrinter {
     protected static final String STATEMENT_HEADER = "DATE | AMOUNT | BALANCE";
-    private static final DecimalFormat decimalFormatter = new DecimalFormat("#.00");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.00");
 
     private final Console console;
     public StatementPrinter(Console console) { this.console = console; }
 
-    public void print(List<Transaction> transactions) {
+    public void print(Seq<Transaction> transactions) {
         console.println(STATEMENT_HEADER);
-
-        printStatementLines(transactions);
+        statements(transactions).forEach(console::println);
     }
 
-    private void printStatementLines(List<Transaction> transactions) {
+    private Iterable<String> statements(Seq<Transaction> transactions) {
         AtomicInteger runningBalance = new AtomicInteger(0);
-        transactions.stream()
-                    .map(t -> statementLine(t, runningBalance))
-                    .collect(toCollection(LinkedList::new))
-                    .descendingIterator()
-                    .forEachRemaining(console::println);
+        return transactions.map(t -> statementLine(t, runningBalance))
+                           .reverseIterator();
     }
 
-    private String statementLine(Transaction transaction, AtomicInteger runningBalance) {
+    private static String statementLine(Transaction transaction, AtomicInteger runningBalance) {
+        String date = transaction.date();
+        int amount = transaction.amount();
         return format("%s | %s | %s",
-                      transaction.date(),
-                      decimalFormatter.format(transaction.amount()),
-                      decimalFormatter.format(runningBalance.addAndGet(transaction.amount())));
+                      date,
+                      DECIMAL_FORMAT.format(amount),
+                      DECIMAL_FORMAT.format(runningBalance.addAndGet(amount)));
     }
 }
