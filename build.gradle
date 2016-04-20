@@ -14,7 +14,7 @@ apply plugin: 'idea'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-mainClassName = 'com.codurance.bankkata' // TODO
+mainClassName = 'com.codurance.BankKataApplication'
 
 repositories {
     mavenCentral()
