@@ -1,15 +1,24 @@
 package com.codurance.bankkata;
 
-import java.util.List;
+import java.util.*;
+
+import static java.util.Collections.unmodifiableList;
 
 public class TransactionRepository {
+    private final Clock clock;
+    private final List<Transaction> transactions = new ArrayList<>();
+    public TransactionRepository(Clock clock) { this.clock = clock; }
+
     public void addDeposit(int amount) {
-        throw new UnsupportedOperationException();
+        Transaction deposit = new Transaction(clock.todayAsString(), amount);
+        transactions.add(deposit);
     }
+
     public void addWithdrawal(int amount) {
         throw new UnsupportedOperationException();
     }
+
     public List<Transaction> allTransactions() {
-        throw new UnsupportedOperationException();
+        return unmodifiableList(transactions);
     }
 }

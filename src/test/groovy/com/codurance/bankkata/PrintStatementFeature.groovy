@@ -4,8 +4,9 @@ import spock.lang.*
 
 @Unroll class PrintStatementFeature extends Specification {
     Console console = Mock()
+    Clock clock = Mock()
 
-    def account = new Account(new TransactionRepository(), new StatementPrinter())
+    def account = new Account(new TransactionRepository(clock), new StatementPrinter())
 
     /*@formatter:off*/
     @PendingFeature
