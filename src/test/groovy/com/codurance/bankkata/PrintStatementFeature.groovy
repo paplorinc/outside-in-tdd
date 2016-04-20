@@ -6,7 +6,8 @@ import spock.lang.*
     Console console = Mock()
     Clock clock = Mock()
 
-    def account = new Account(new TransactionRepository(clock), new StatementPrinter())
+    def account = new Account(new TransactionRepository(clock),
+                              new StatementPrinter(console))
 
     /*@formatter:off*/
     @PendingFeature
