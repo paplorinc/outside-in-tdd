@@ -10,9 +10,10 @@ import spock.lang.*
                               new StatementPrinter(console))
 
     /*@formatter:off*/
-    @PendingFeature
     def 'print statement containing all transactions'() {
-        given:  account.deposit(1000)
+        given:  clock.todayAsString() >>> ['01/04/2014','02/04/2014','10/04/2014']
+
+                account.deposit(1000)
                 account.withdraw(100)
                 account.deposit(500)
 
