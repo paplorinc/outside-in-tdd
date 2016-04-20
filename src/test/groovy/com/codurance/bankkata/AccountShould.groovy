@@ -10,19 +10,19 @@ class AccountShould extends Specification {
 
     /*@formatter:off*/
     def 'store a deposit transaction'() {
-        given:  def value = 100
-        when:   account.deposit(value)
-        then:   1 * transactionRepository.addDeposit(value)
+        given:  def amount = 100
+        when:   account.deposit(amount)
+        then:   1 * transactionRepository.addDeposit(amount)
     }
 
     def 'store a withdrawal transaction'() {
-        given:  def value = 100
-        when:   account.withdraw(value)
-        then:   1 * transactionRepository.addWithdrawal(value)
+        given:  def amount = 100
+        when:   account.withdraw(amount)
+        then:   1 * transactionRepository.addWithdrawal(amount)
     }
 
     def 'print a statement'() {
-        given:  def transactions = [new Transaction()]
+        given:  def transactions = [new Transaction('12/05/2015', 100)]
                 transactionRepository.allTransactions() >> transactions
         when:   account.printStatement()
         then:   1 * statementPrinter.print(transactions)
