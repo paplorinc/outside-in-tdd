@@ -20,6 +20,19 @@ class TransactionRepositoryShould extends Specification {
         then:   transactions.size() == 1
                 transactions.first() == transaction(today, amount)
     }
+
+    def 'create and store a withdrawal transaction'() {
+        def amount = 100
+        def today = '12/05/2015'
+
+        given:  clock.todayAsString() >>  today
+
+        when:   transactionRepository.addWithdrawal(amount)
+                def transactions = transactionRepository.allTransactions()
+
+        then:   transactions.size() == 1
+                transactions.first() == transaction(today, -amount)
+    }
     /*@formatter:on*/
 
     def transaction(String date, int amount) { new Transaction(date, amount) }
