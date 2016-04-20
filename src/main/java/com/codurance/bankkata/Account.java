@@ -2,7 +2,11 @@ package com.codurance.bankkata;
 
 public class Account {
     private final TransactionRepository transactionRepository;
-    public Account(TransactionRepository transactionRepository) { this.transactionRepository = transactionRepository; }
+    private final StatementPrinter statementPrinter;
+    public Account(TransactionRepository transactionRepository, StatementPrinter statementPrinter) {
+        this.transactionRepository = transactionRepository;
+        this.statementPrinter = statementPrinter;
+    }
 
     public void deposit(int amount) {
         transactionRepository.addDeposit(amount);
@@ -11,5 +15,6 @@ public class Account {
         transactionRepository.addWithdrawal(amount);
     }
     public void printStatement() {
+        statementPrinter.print(transactionRepository.allTransactions());
     }
 }

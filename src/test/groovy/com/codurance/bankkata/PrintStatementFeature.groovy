@@ -3,10 +3,11 @@ package com.codurance.bankkata
 import spock.lang.*
 
 @Unroll class PrintStatementFeature extends Specification {
-    /*@formatter:off*/
-    def console = Mock(Console)
-    def account = new Account(new TransactionRepository())
+    Console console = Mock()
 
+    def account = new Account(new TransactionRepository(), new StatementPrinter())
+
+    /*@formatter:off*/
     @PendingFeature
     def 'print statement containing all transactions'() {
         given:  account.deposit(1000)
