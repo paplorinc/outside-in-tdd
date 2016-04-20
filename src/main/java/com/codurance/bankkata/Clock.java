@@ -1,7 +1,13 @@
 package com.codurance.bankkata;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Clock {
     public String todayAsString() {
-        throw new UnsupportedOperationException();
+        LocalDate today = today();
+        return today.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
+
+    protected LocalDate today() { return LocalDate.now(); }
 }
